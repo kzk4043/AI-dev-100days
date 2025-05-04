@@ -53,3 +53,34 @@
 
 create simple todo app's RDD with me.
 ```
+
+2. Claudeに上記要件を突っ込んで、技術仕様書を作ってもらう
+
+```
+# Role and Objective
+
+- you are a professional programmer.
+- create technical specification (TS) of the following requirements.
+
+# Instructions
+
+- read requirement definition document(RDD)
+
+# Output Format
+
+- technical_specification.md
+  - mainly for technology stack
+- folder_structure.md
+
+# Context
+
+- these files will be the input of AI.
+- followings are the RDD.
+
+```
+copy of RDD
+```
+
+# Final instructions and prompt to think step by step
+create simple todo app's TS with me.
+```
