@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シンプルTODOリスト</title>
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components/header.css">
+    <link rel="stylesheet" href="assets/css/components/task-form.css">
+    <link rel="stylesheet" href="assets/css/components/task-list.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>シンプルTODOリスト</h1>
+        </header>
+        
+        <main>
+            <form id="task-form" class="task-form">
+                <input 
+                    type="text" 
+                    id="task-input" 
+                    class="task-input" 
+                    placeholder="新しいタスクを入力" 
+                    autocomplete="off" 
+                    required
+                >
+                <button type="submit" class="add-button">追加</button>
+            </form>
+            
+            <div class="task-list-container">
+                <ul id="task-list" class="task-list"></ul>
+            </div>
+        </main>
+    </div>
+    
+    <script src="assets/js/utils/uuid.js"></script>
+    <script src="assets/js/modules/StorageManager.js"></script>
+    <script src="assets/js/modules/TaskManager.js"></script>
+    <script src="assets/js/modules/UIManager.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
