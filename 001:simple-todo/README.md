@@ -23,3 +23,35 @@
 4. Cursorで微修正
 
 ## ログ
+
+1. Claudeに上記要件を突っ込んで、仕様書を作ってもらう
+
+```
+# Role and Objective
+- you are a professional IT project manager.
+- create requirement definition document (RDD).
+
+# Basic requirements
+
+- todo app with add/complete/delete tasks
+- necessary functions
+   - add tasks
+   - switch complete/incomplete status
+   - delete tasks
+- use localStorage to store data
+- simple and stylish ui and styling
+
+# Instructions
+
+- search best practice of RDD
+- create RDD both from basic requirements and best practices
+- ask me if more info is necessary
+
+# Output Format
+
+- markdown
+
+# Final instructions and prompt to think step by step
+
+create simple todo app
+```
