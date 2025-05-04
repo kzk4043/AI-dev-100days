@@ -1,0 +1,115 @@
+/* Task List styles */
+.task-list-container {
+  margin-top: var(--spacing-md);
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  animation: fadeIn 0.3s ease;
+}
+
+.task-item:hover {
+  background-color: var(--hover-color);
+}
+
+.task-checkbox {
+  margin-right: var(--spacing-md);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.task-checkbox.checked {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.task-checkbox.checked::after {
+  content: '✓';
+  color: white;
+  font-size: 0.9rem;
+}
+
+.task-text {
+  flex: 1;
+  word-break: break-word;
+  transition: color 0.2s ease;
+}
+
+.task-delete {
+  margin-left: var(--spacing-md);
+  color: var(--text-light-color);
+  background: none;
+  padding: var(--spacing-xs);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.task-delete:hover {
+  color: var(--danger-color);
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.task-delete::before {
+  content: '×';
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Empty state */
+.empty-list {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-light-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+.task-item.removing {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@media (max-width: 480px) {
+  .task-item {
+    padding: var(--spacing-sm);
+  }
+  
+  .task-checkbox {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .task-delete {
+    width: 24px;
+    height: 24px;
+  }
+}
