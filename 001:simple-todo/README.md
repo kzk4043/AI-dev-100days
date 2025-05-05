@@ -17,8 +17,11 @@
 2. Claudeに上記要件を突っ込んで、技術仕様書を作ってもらう
    1. 技術選定.md
    2. ディレクトリ構成.md
-3. Claude Code?に上記mdを読ませて構築
-4. Cursorで微修正
+3. Claudeに上記mdを読ませて構築
+   1. githubにPRを作らせる
+4. CLINE（gemini2.5 flash）でリファクタ
+   1. リファクタできそうな内容を羅列
+   2. ステップ・バイ・ステップで適用
 
 ## ログ
 
@@ -83,4 +86,33 @@ copy of RDD
 
 # Final instructions and prompt to think step by step
 create simple todo app's TS with me.
+```
+
+3. Claudeに上記mdを読ませて構築
+
+```
+# Role and Objective
+
+- you are a professional programmer.
+- create pull request based on docs' requirements.
+
+# Instructions
+
+- read docs under `/docs`
+- create required codes based on docs
+- create pull request to the repository
+
+# Output Format
+
+- pull request with new branch (`feat/day001_base`)
+
+# Context
+
+- repository url
+  - https://github.com/kzk4043/AI-dev-100days/tree/main/001%3Asimple-todo
+- docs are under `/docs`
+
+# Final instructions and prompt to think step by step
+
+create simple todo app with me.
 ```
