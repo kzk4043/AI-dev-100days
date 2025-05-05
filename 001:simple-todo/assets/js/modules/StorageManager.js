@@ -10,33 +10,34 @@ class StorageManager {
   /**
    * Save tasks to localStorage
    * @param {Array} tasks - Array of task objects
-   * @returns {boolean} - Whether the save was successful
+   * @returns {Promise<object>} - Promise resolving with success status and message
    */
-  saveTasks(tasks) {
+  async saveTasks(tasks) {
     try {
       const tasksJSON = JSON.stringify(tasks);
       localStorage.setItem(this.storageKey, tasksJSON);
-      return true;
+      return { success: true };
     } catch (error) {
       console.error('Error saving tasks to localStorage:', error);
-      return false;
+      return { success: false, message: 'Failed to save tasks to local storage.' };
     }
   }
 
   /**
    * Load tasks from localStorage
-   * @returns {Array} - Array of task objects, or empty array if none found
+   * @returns {Promise<object>} - Promise resolving with success status and data or error message
    */
-  loadTasks() {
+  async loadTasks() {
     try {
       const tasksJSON = localStorage.getItem(this.storageKey);
       if (!tasksJSON) {
-        return [];
+        return { success: true, data: [] };
       }
-      return JSON.parse(tasksJSON);
+      const tasks = JSON.parse(tasksJSON);
+      return { success: true, data: tasks };
     } catch (error) {
       console.error('Error loading tasks from localStorage:', error);
-      return [];
+      return { success: false, message: 'Failed to load tasks from local storage.' };
     }
   }
 
@@ -57,15 +58,15 @@ class StorageManager {
 
   /**
    * Clear all tasks from localStorage
-   * @returns {boolean} - Whether the operation was successful
+    * @returns {Promise<object>} - Promise resolving with success status and message
    */
-  clearTasks() {
+  async clearTasks() {
     try {
       localStorage.removeItem(this.storageKey);
-      return true;
+      return { success: true };
     } catch (error) {
       console.error('Error clearing tasks from localStorage:', error);
-      return false;
+      return { success: false, message: 'Failed to clear tasks from local storage.' };
     }
   }
 }

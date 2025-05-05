@@ -3,12 +3,25 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize the application
-  const initApp = () => {
+  const initApp = async () => {
     try {
-      // Create instances of managers
+      // Create instances of managers and event bus
+      const eventBus = new EventBus();
       const storageManager = new StorageManager();
-      const taskManager = new TaskManager(storageManager);
-      const uiManager = new UIManager(taskManager);
+      const taskManager = new TaskManager(storageManager, eventBus);
+      
+      // Get DOM elements
+      const taskForm = document.getElementById('task-form');
+      const taskInput = document.getElementById('task-input');
+      const taskList = document.getElementById('task-list');
+      const errorMessage = document.getElementById('error-message');
+
+      const uiManager = new UIManager(taskManager, eventBus, {
+        taskForm,
+        taskInput,
+        taskList,
+        errorMessage
+      });
       
       // Check if localStorage is available
       if (!storageManager.isStorageAvailable()) {
@@ -16,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Load initial tasks
-      taskManager.loadTasks();
+      await taskManager.loadTasks();
       
       // Log for debugging purposes
       console.log('Todo Application initialized successfully');

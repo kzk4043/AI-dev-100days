@@ -3,19 +3,19 @@
  */
 class UIManager {
   /**
-   * Initialize UIManager with TaskManager
+   * Initialize UIManager with TaskManager, EventBus, and DOM elements
    * @param {TaskManager} taskManager - Instance of TaskManager
+   * @param {EventBus} eventBus - Instance of EventBus
+   * @param {object} domElements - Object containing references to DOM elements
    */
-  constructor(taskManager) {
+  constructor(taskManager, eventBus, domElements) {
     this.taskManager = taskManager;
-    this.domElements = {
-      taskForm: document.getElementById('task-form'),
-      taskInput: document.getElementById('task-input'),
-      taskList: document.getElementById('task-list')
-    };
+    this.eventBus = eventBus;
+    this.domElements = domElements;
     
     this.bindEvents();
-    this.taskManager.setOnTasksUpdated(tasks => this.renderTasks(tasks));
+    this.eventBus.subscribe('tasksUpdated', tasks => this.renderTasks(tasks));
+    this.eventBus.subscribe('error', message => this.displayError(message));
   }
 
   /**
@@ -70,17 +70,31 @@ class UIManager {
   toggleTaskCompletion(taskId, taskElement) {
     const updatedTask = this.taskManager.toggleTaskCompletion(taskId);
     
-    if (updatedTask) {
-      const checkbox = taskElement.querySelector('.task-checkbox');
-      const taskText = taskElement.querySelector('.task-text');
-      
-      if (updatedTask.completed) {
-        checkbox.classList.add('checked');
-        taskText.classList.add('strikethrough');
-      } else {
-        checkbox.classList.remove('checked');
-        taskText.classList.remove('strikethrough');
-      }
+    if (!updatedTask) {
+      return;
+    }
+
+    const checkbox = taskElement.querySelector('.task-checkbox');
+    const taskText = taskElement.querySelector('.task-text');
+
+    this.updateTaskItemClasses(taskElement, updatedTask.completed);
+  }
+
+  /**
+   * Update CSS classes for a task item based on completion status
+   * @param {HTMLElement} taskElement - Task DOM element
+   * @param {boolean} isCompleted - Completion status of the task
+   */
+  updateTaskItemClasses(taskElement, isCompleted) {
+    const checkbox = taskElement.querySelector('.task-checkbox');
+    const taskText = taskElement.querySelector('.task-text');
+
+    if (isCompleted) {
+      checkbox.classList.add('checked');
+      taskText.classList.add('strikethrough');
+    } else {
+      checkbox.classList.remove('checked');
+      taskText.classList.remove('strikethrough');
     }
   }
 
@@ -96,6 +110,31 @@ class UIManager {
     setTimeout(() => {
       this.taskManager.deleteTask(taskId);
     }, 300);
+  }
+
+  /**
+   * Display an error message
+   * @param {string} message - The error message to display
+   */
+  displayError(message) {
+    if (this.domElements.errorMessage) {
+      this.domElements.errorMessage.textContent = message;
+      this.domElements.errorMessage.style.display = 'block';
+      // Optionally hide the message after a few seconds
+      setTimeout(() => {
+        this.hideError();
+      }, 5000);
+    }
+  }
+
+  /**
+   * Hide the error message
+   */
+  hideError() {
+    if (this.domElements.errorMessage) {
+      this.domElements.errorMessage.textContent = '';
+      this.domElements.errorMessage.style.display = 'none';
+    }
   }
 
   /**
