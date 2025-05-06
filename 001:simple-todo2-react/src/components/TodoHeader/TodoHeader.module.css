@@ -1,0 +1,25 @@
+.header {
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+  padding: var(--spacing-md) 0;
+  width: 100%;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 576px) {
+  .header {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .title {
+    font-size: var(--font-size-lg);
+  }
+}
