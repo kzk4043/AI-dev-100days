@@ -17,8 +17,12 @@
 2. Claudeに上記要件を突っ込んで、技術仕様書を作ってもらう
    1. 技術選定.md
    2. ディレクトリ構成.md
-3. Claude Code?に上記mdを読ませて構築
-4. Cursorで微修正
+3. Claudeに上記mdを読ませて構築
+   1. githubにPRを作らせる
+4. CLINE（gemini2.5 flash）でリファクタ
+   1. リファクタできそうな内容を羅列
+   2. ステップ・バイ・ステップで適用
+5. 提案されたリファクタをClaudeにチェックしてもらう
 
 ## ログ
 
@@ -84,3 +88,49 @@ copy of RDD
 # Final instructions and prompt to think step by step
 create simple todo app's TS with me.
 ```
+
+3. Claudeに上記mdを読ませて構築
+
+```
+# Role and Objective
+
+- you are a professional programmer.
+- create pull request based on docs' requirements.
+
+# Instructions
+
+- read docs under `/docs`
+- create required codes based on docs
+- create pull request to the repository
+
+# Output Format
+
+- pull request with new branch (`feat/day001_base`)
+
+# Context
+
+- repository url
+  - https://github.com/kzk4043/AI-dev-100days/tree/main/001%3Asimple-todo
+- docs are under `/docs`
+
+# Final instructions and prompt to think step by step
+
+create simple todo app with me.
+```
+
+4. CLINE（gemini2.5 flash）でリファクタ
+
+https://github.com/kzk4043/AI-dev-100days/pull/4/files
+さくっとやってくれたし、20円くらいだった。金額がわかるのいいな。
+
+5. 提案されたリファクタをClaudeにチェックしてもらう
+
+思いつきでやってみたけどすごい検索してて時間かかってる…やっぱ一回の検索数限界がなくなってる？一回で300リンクくらい踏んでる。時間もかかるし。
+勝手にトークン使いすぎてすぐリミットにかかる気がする。deep thinkしなけりゃいいのか？
+なんか思考時間を指定するみたいなベスプラがどっかにあったが…deep thinkつけてもたいして長考しないときもあるし、どういう時に長考するのかいまいちわからない（わからない時？）。
+システムプロンプトに最大思考時間だけ指定するか？
+
+>I've analyzed common patterns in React Todo app refactoring. Your report examines the likely transformation from a monolithic class-based implementation
+
+React使ってないのにReactとかいいだしたし、なんか一般的なリファクタメソッドみたいなのを提案してきた。
+あー、ファイルを読めなかったのか…読めなかった時は止まるとかそういう縛りもいるな。
