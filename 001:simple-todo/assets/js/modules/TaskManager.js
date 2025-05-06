@@ -4,56 +4,56 @@
  */
 class TaskManager {
   /**
-   * Initialize TaskManager with StorageManager for persistence
+   * Initialize TaskManager with StorageManager and EventBus
    * @param {StorageManager} storageManager - Instance of StorageManager
+   * @param {EventBus} eventBus - Instance of EventBus
    */
-  constructor(storageManager) {
+  constructor(storageManager, eventBus) {
     this.tasks = [];
     this.storageManager = storageManager;
-    this.callbacks = {
-      onTasksUpdated: null
-    };
+    this.eventBus = eventBus;
   }
 
   /**
-   * Set callback function for when tasks are updated
-   * @param {Function} callback - Function to call when tasks change
+   * Publish tasks updated event
    */
-  setOnTasksUpdated(callback) {
-    this.callbacks.onTasksUpdated = callback;
-  }
-
-  /**
-   * Call onTasksUpdated callback if it exists
-   */
-  notifyTasksUpdated() {
-    if (typeof this.callbacks.onTasksUpdated === 'function') {
-      this.callbacks.onTasksUpdated(this.tasks);
-    }
+  publishTasksUpdated() {
+    this.eventBus.publish('tasksUpdated', this.tasks);
   }
 
   /**
    * Load tasks from storage
    */
-  loadTasks() {
-    this.tasks = this.storageManager.loadTasks();
-    this.notifyTasksUpdated();
+  async loadTasks() {
+    const result = await this.storageManager.loadTasks();
+    if (result.success) {
+      this.tasks = result.data;
+      this.publishTasksUpdated();
+    } else {
+      console.error('Failed to load tasks:', result.message);
+      this.eventBus.publish('error', result.message);
+      this.tasks = []; // Ensure tasks is an empty array on load failure
+    }
     return this.tasks;
   }
 
   /**
    * Save tasks to storage
    */
-  saveTasks() {
-    this.storageManager.saveTasks(this.tasks);
+  async saveTasks() {
+    const result = await this.storageManager.saveTasks(this.tasks);
+    if (!result.success) {
+      console.error('Failed to save tasks:', result.message);
+      this.eventBus.publish('error', result.message);
+    }
   }
 
   /**
    * Add a new task
    * @param {string} text - Task description
-   * @returns {Object} - The newly created task
+   * @returns {Promise<Object|null>} - Promise resolving with the newly created task or null if invalid input
    */
-  addTask(text) {
+  async addTask(text) {
     if (!text || typeof text !== 'string' || !text.trim()) {
       return null;
     }
@@ -66,8 +66,8 @@ class TaskManager {
     };
 
     this.tasks.push(newTask);
-    this.saveTasks();
-    this.notifyTasksUpdated();
+    await this.saveTasks();
+    this.publishTasksUpdated();
 
     return newTask;
   }
@@ -75,9 +75,9 @@ class TaskManager {
   /**
    * Toggle task completion status
    * @param {string} id - Task ID
-   * @returns {Object|null} - Updated task or null if not found
+   * @returns {Promise<Object|null>} - Promise resolving with the updated task or null if not found
    */
-  toggleTaskCompletion(id) {
+  async toggleTaskCompletion(id) {
     const task = this.tasks.find(task => task.id === id);
     
     if (!task) {
@@ -85,8 +85,8 @@ class TaskManager {
     }
 
     task.completed = !task.completed;
-    this.saveTasks();
-    this.notifyTasksUpdated();
+    await this.saveTasks();
+    this.publishTasksUpdated();
 
     return task;
   }
@@ -94,15 +94,15 @@ class TaskManager {
   /**
    * Delete a task
    * @param {string} id - Task ID
-   * @returns {boolean} - Whether the task was deleted
+   * @returns {Promise<boolean>} - Promise resolving with whether the task was deleted
    */
-  deleteTask(id) {
+  async deleteTask(id) {
     const initialLength = this.tasks.length;
     this.tasks = this.tasks.filter(task => task.id !== id);
     
     if (this.tasks.length !== initialLength) {
-      this.saveTasks();
-      this.notifyTasksUpdated();
+      await this.saveTasks();
+      this.publishTasksUpdated();
       return true;
     }
     
