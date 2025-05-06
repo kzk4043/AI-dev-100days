@@ -12,6 +12,7 @@
 
 - not class base implementation, but function base implementation
 - do not nest if conditions. use early returns
+- add comment for each function, and steps hard to understand
 
 ## lint
 

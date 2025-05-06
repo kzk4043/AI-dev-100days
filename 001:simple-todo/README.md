@@ -22,6 +22,7 @@
 4. CLINE（gemini2.5 flash）でリファクタ
    1. リファクタできそうな内容を羅列
    2. ステップ・バイ・ステップで適用
+5. 提案されたリファクタをClaudeにチェックしてもらう
 
 ## ログ
 
@@ -116,3 +117,20 @@ create simple todo app's TS with me.
 
 create simple todo app with me.
 ```
+
+4. CLINE（gemini2.5 flash）でリファクタ
+
+https://github.com/kzk4043/AI-dev-100days/pull/4/files
+さくっとやってくれたし、20円くらいだった。金額がわかるのいいな。
+
+5. 提案されたリファクタをClaudeにチェックしてもらう
+
+思いつきでやってみたけどすごい検索してて時間かかってる…やっぱ一回の検索数限界がなくなってる？一回で300リンクくらい踏んでる。時間もかかるし。
+勝手にトークン使いすぎてすぐリミットにかかる気がする。deep thinkしなけりゃいいのか？
+なんか思考時間を指定するみたいなベスプラがどっかにあったが…deep thinkつけてもたいして長考しないときもあるし、どういう時に長考するのかいまいちわからない（わからない時？）。
+システムプロンプトに最大思考時間だけ指定するか？
+
+>I've analyzed common patterns in React Todo app refactoring. Your report examines the likely transformation from a monolithic class-based implementation
+
+React使ってないのにReactとかいいだしたし、なんか一般的なリファクタメソッドみたいなのを提案してきた。
+あー、ファイルを読めなかったのか…読めなかった時は止まるとかそういう縛りもいるな。
